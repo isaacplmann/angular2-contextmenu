@@ -1,8 +1,10 @@
-# @AngularClass
+# Created by https://www.gitignore.io/api/node
 
+### Node ###
 # Logs
 logs
 *.log
+npm-debug.log*
 
 # Runtime data
 pids
@@ -18,44 +20,45 @@ coverage
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
+# node-waf configuration
+.lock-wscript
+
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
-# Users Environment Variables
-.lock-wscript
+# Dependency directories
+node_modules
+jspm_packages
 
-# OS generated files #
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
 .DS_Store
-ehthumbs.db
-Icon?
-Thumbs.db
 
-# Node Files #
-/node_modules
-/bower_components
-npm-debug.log
+# type script artifacts
+/typings
 
-# Coverage #
-/coverage/
+# WebStorm
+.idea
 
-# Typing #
-/src/typings/tsd/
-/typings/
-/tsd_typings/
-
-# Dist #
+# ignore build and dist for now
+/bundles
+/demo-build
 /dist
-/public/__build__/
-/src/*/__build__/
-/__build__/**
-/public/dist/
-/src/*/dist/
-/dist/**
-.webpack.json
+/coverage
+/ts
 
-# Doc #
-/doc/
-
-# IDE #
-.idea/
-*.swp
+# ignore incline compiling
+/demo/**/*.js
+/demo/**/*.js.map
+/demo/**/*.d.ts
+/src/**/*.js
+/src/**/*.js.map
+/src/**/*.d.ts
+angular2-contextmenu.js
+angular2-contextmenu.d.ts
+angular2-contextmenu.js.map
+/logs
