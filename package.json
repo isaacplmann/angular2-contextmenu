@@ -1,8 +1,8 @@
 {
   "name": "angular2-contextmenu",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An Angular 2 component to show a context menu on an arbitrary component",
-  "main": "dist/angular2-contextmenu.min.js",
+  "main": "angular2-contextmenu.js",
   "scripts": {
     "flow.install:typings": "./node_modules/.bin/typings install",
     "flow.compile": "npm run flow.install:typings && npm run flow.compile:common && npm run flow.compile:system ",
@@ -29,7 +29,6 @@
     "version": "npm run flow.changelog && git add -A",
     "postversion": "git push && git push --tags"
   },
-  "main": "angular2-contextmenu.js",
   "typings": "angular2-contextmenu.d.ts",
   "keywords": [
     "angular2",
@@ -104,8 +103,7 @@
     "webpack-dev-server": "1.14.1",
     "zone.js": "0.6.12"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "peerDependencies": {
     "@angular/core": "2.0.0-rc.1"
   }
