@@ -55,7 +55,7 @@ const config = {
       '@angular/common',
       '@angular/core'
     ],
-    'angular2-contextmenu': ['angular2-contextmenu'],
+    'index': ['angular2-contextmenu'],
     'angular2-contextmenu-demo': 'demo'
   },
 
@@ -133,10 +133,6 @@ const config = {
     new CopyWebpackPlugin([{from: 'demo/assets', to: 'assets'}]),
     // generating html
     new HtmlWebpackPlugin({template: 'demo/index.html'}),
-    new HtmlWebpackPlugin({
-      template: 'demo/index-bs4.html',
-      filename: 'index-bs4.html'
-    })
   ],
   pushPlugins() {
     if (!isProduction) {
