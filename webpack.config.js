@@ -55,7 +55,7 @@ const config = {
       '@angular/common',
       '@angular/core'
     ],
-    'index': ['angular2-contextmenu'],
+    'angular2-contextmenu': ['angular2-contextmenu'],
     'angular2-contextmenu-demo': 'demo'
   },
 
