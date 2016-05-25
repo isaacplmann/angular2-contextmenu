@@ -58,6 +58,9 @@ jspm_packages
 /src/**/*.js
 /src/**/*.js.map
 /src/**/*.d.ts
+index.js
+index.d.ts
+index.js.map
 angular2-contextmenu.js
 angular2-contextmenu.d.ts
 angular2-contextmenu.js.map
