@@ -19,6 +19,7 @@ export class ContextMenuComponent {
   public links: any[] = [];
   public isShown: boolean = false;
   public item: any;
+  public hide: boolean = true;
   private mouseLocation: { left: number, top: number } = { left: 0, top: 0 };
   constructor(private _contextMenuService: ContextMenuService) {
     _contextMenuService.show.subscribe((e: IContextMenuClickEvent) => this.showMenu(e.event, e.actions, e.item));
@@ -35,10 +36,14 @@ export class ContextMenuComponent {
 
   @HostListener('document:click')
   public clickedOutside(): void {
-    this.isShown = false;
+    if (this.hide) {
+      this.isShown = false;
+    }
+    this.hide = true;
   }
 
   public showMenu(event: MouseEvent, actions: any[], item: any): void {
+    this.hide = false;
     if (actions && actions.length > 0) {
       this.isShown = true;
     }
