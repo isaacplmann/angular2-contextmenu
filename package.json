@@ -1,6 +1,6 @@
 {
   "name": "angular2-contextmenu",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "An Angular 2 component to show a context menu on an arbitrary component",
   "main": "angular2-contextmenu.js",
   "scripts": {
@@ -103,8 +103,5 @@
     "webpack-dev-server": "1.14.1",
     "zone.js": "0.6.12"
   },
-  "dependencies": {},
-  "peerDependencies": {
-    "@angular/core": "2.0.0-rc.1"
-  }
+  "dependencies": {}
 }

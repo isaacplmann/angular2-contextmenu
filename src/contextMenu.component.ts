@@ -18,6 +18,7 @@ import {ContextMenuService, IContextMenuClickEvent} from './contextMenu.service'
 export class ContextMenuComponent {
   public links: any[] = [];
   public isShown: boolean = false;
+  public isOpening: boolean = false;
   public item: any;
   private mouseLocation: { left: number, top: number } = { left: 0, top: 0 };
   constructor(private _contextMenuService: ContextMenuService) {
@@ -35,10 +36,14 @@ export class ContextMenuComponent {
 
   @HostListener('document:click')
   public clickedOutside(): void {
-    this.isShown = false;
+    if (!this.isOpening) {
+      this.isShown = false;
+    }
   }
 
   public showMenu(event: MouseEvent, actions: any[], item: any): void {
+    this.isOpening = true;
+    setTimeout(() => this.isOpening = false, 400);
     if (actions && actions.length > 0) {
       this.isShown = true;
     }
