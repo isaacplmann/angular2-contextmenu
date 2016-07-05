@@ -9,7 +9,7 @@ import {ContextMenuService, IContextMenuClickEvent} from './contextMenu.service'
   `<div class="dropdown angular2-contextmenu">
       <ul [ngStyle]="locationCss" class="dropdown-menu">
         <li *ngFor="let link of links" [class.disabled]="link.enabled && !link.enabled(item)">
-          <a href (click)="link.click(item, $event); $event.preventDefault();" innerHTML="{{link.html()}}"></a>
+          <a href (click)="link.click(item, $event); $event.preventDefault();" innerHTML="{{link.html(item)}}"></a>
         </li>
       </ul>
     </div>
