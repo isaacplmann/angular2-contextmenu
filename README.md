@@ -33,7 +33,7 @@ export class MyContextMenuClass {
 
   constructor(private contextMenuService: ContextMenuService) {}
 
-  public onContextMenu($event: Event, item: any): void {
+  public onContextMenu($event: MouseEvent, item: any): void {
     this.contextMenuService.show.next({
       actions: [
         {
