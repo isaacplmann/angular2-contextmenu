@@ -1,6 +1,6 @@
 # angular2-contextmenu
 
-A context menu built with Angular 2 inspired by [ui.bootstrap.contextMenu](https://github.com/Templarian/ui.bootstrap.contextMenu).  Bootstrap classes are included in the markup, but there is no explicit dependency on bootstrap. [Demo](http://plnkr.co/edit/wpJXpEh4zNZ4uCxTURx2?p=preview)
+A context menu built with Angular 2 inspired by [ui.bootstrap.contextMenu](https://github.com/Templarian/ui.bootstrap.contextMenu).  Bootstrap classes are included in the markup, but there is no explicit dependency on Bootstrap. [Demo](http://plnkr.co/edit/wpJXpEh4zNZ4uCxTURx2?p=preview)
 
 ## Usage
 
@@ -98,4 +98,20 @@ this.customHTMLOptions = [
       alert("Example 1");
     }
   }];
+```
+
+## Bootstrap 4
+
+If you're using Bootstrap 4, you can add a `useBootstrap4` attribute to the `context-menu` component in order to get the appropriate class names.  Like this:
+
+```html
+<context-menu [useBootstrap4]="true"></context-menu>
+```
+
+## Close event emitter
+
+There is a `(close)` output EventEmitter that you can subscribe to for notifications when the context menu closes (either by clicking outside or choosing a menu item).
+
+```html
+<context-menu (close)="processContextMenuCloseEvent()"></context-menu>
 ```

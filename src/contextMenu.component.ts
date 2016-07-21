@@ -1,4 +1,4 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, HostListener, Input, Output, EventEmitter} from '@angular/core';
 import {ContextMenuService, IContextMenuClickEvent} from './contextMenu.service';
 
 @Component({
@@ -9,13 +9,16 @@ import {ContextMenuService, IContextMenuClickEvent} from './contextMenu.service'
   `<div class="dropdown angular2-contextmenu">
       <ul [ngStyle]="locationCss" class="dropdown-menu">
         <li *ngFor="let link of links" [class.disabled]="link.enabled && !link.enabled(item)">
-          <a href (click)="link.click(item, $event); $event.preventDefault();" innerHTML="{{link.html(item)}}"></a>
+          <a href [class.dropdown-item]="useBootstrap4" (click)="link.click(item, $event); $event.preventDefault();" innerHTML="{{link.html(item)}}"></a>
         </li>
       </ul>
     </div>
   `,
 })
 export class ContextMenuComponent {
+  @Input() public useBootstrap4: boolean = false;
+  @Output() public close: EventEmitter<any> = new EventEmitter<any>();
+
   public links: any[] = [];
   public isShown: boolean = false;
   public isOpening: boolean = false;
@@ -37,6 +40,9 @@ export class ContextMenuComponent {
   @HostListener('document:click')
   public clickedOutside(): void {
     if (!this.isOpening) {
+      if (this.isShown === true) {
+        this.close.emit({});
+      }
       this.isShown = false;
     }
   }
