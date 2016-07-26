@@ -1,3 +1,8 @@
+<a name="0.1.10"></a>
+## [0.1.10](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.1.5...v0.1.10) (2016-07-26)
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.1.4...v0.1.5) (2016-05-25)
 

@@ -1,6 +1,12 @@
 import {Component, HostListener, Input, Output, EventEmitter} from '@angular/core';
 import {ContextMenuService, IContextMenuClickEvent} from './contextMenu.service';
 
+export interface ILinkConfig {
+  html: () => string;
+  click: (item: any, $event?: MouseEvent) => void;
+  enabled?: (item: any) => boolean;
+}
+
 @Component({
   selector: 'context-menu',
   styles: [
@@ -8,8 +14,8 @@ import {ContextMenuService, IContextMenuClickEvent} from './contextMenu.service'
   template:
   `<div class="dropdown angular2-contextmenu">
       <ul [ngStyle]="locationCss" class="dropdown-menu">
-        <li *ngFor="let link of links" [class.disabled]="link.enabled && !link.enabled(item)">
-          <a href [class.dropdown-item]="useBootstrap4" (click)="link.click(item, $event); $event.preventDefault();" innerHTML="{{link.html(item)}}"></a>
+        <li *ngFor="let link of links" [class.disabled]="isDisabled(link)">
+          <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && isDisabled(link)" (click)="execute(link, $event); $event.preventDefault();" innerHTML="{{link.html(item)}}"></a>
         </li>
       </ul>
     </div>
@@ -19,7 +25,7 @@ export class ContextMenuComponent {
   @Input() public useBootstrap4: boolean = false;
   @Output() public close: EventEmitter<any> = new EventEmitter<any>();
 
-  public links: any[] = [];
+  public links: ILinkConfig[] = [];
   public isShown: boolean = false;
   public isOpening: boolean = false;
   public item: any;
@@ -45,6 +51,17 @@ export class ContextMenuComponent {
       }
       this.isShown = false;
     }
+  }
+
+  public isDisabled(link: ILinkConfig): boolean {
+    return link.enabled && !link.enabled(this.item);
+  }
+
+  public execute(link: ILinkConfig, $event?: MouseEvent) {
+    if (this.isDisabled(link)) {
+      return;
+    }
+    link.click(this.item, $event);
   }
 
   public showMenu(event: MouseEvent, actions: any[], item: any): void {
