@@ -46,10 +46,7 @@ export class ContextMenuComponent {
   @HostListener('document:click')
   public clickedOutside(): void {
     if (!this.isOpening) {
-      if (this.isShown === true) {
-        this.close.emit({});
-      }
-      this.isShown = false;
+      this.hideMenu();
     }
   }
 
@@ -61,6 +58,7 @@ export class ContextMenuComponent {
     if (this.isDisabled(link)) {
       return;
     }
+    this.hideMenu();
     link.click(this.item, $event);
   }
 
@@ -76,5 +74,12 @@ export class ContextMenuComponent {
       left: event.clientX,
       top: event.clientY,
     };
+  }
+
+  public hideMenu(): void {
+    if (this.isShown === true) {
+      this.close.emit({});
+    }
+    this.isShown = false;
   }
 }
