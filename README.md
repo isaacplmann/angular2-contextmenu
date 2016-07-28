@@ -107,7 +107,9 @@ The html that is generated for the context menu looks like this:
 ```html
 <div class="dropdown angular2-contextmenu">
   <ul class="dropdown-menu">
-    <li><!-- the return value of the html() function for each link goes here --></li>
+    <li>
+      <a><!-- the return value of the html() function for each link goes here --></a>
+    </li>
   </ul>
 </div>
 ```
