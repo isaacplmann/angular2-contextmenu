@@ -100,6 +100,46 @@ this.customHTMLOptions = [
   }];
 ```
 
+## Custom Styles
+
+The html that is generated for the context menu looks like this:
+
+```html
+<div class="dropdown angular2-contextmenu">
+  <ul class="dropdown-menu">
+    <li><!-- the return value of the html() function for each link goes here --></li>
+  </ul>
+</div>
+```
+
+You can key off of the `angular2-contextmenu` class to create your own styles.  Note that the `ul.dropdown-menu` will have inline styles applied for `position`, `display`, `left` and `top` so that it will be positioned at the cursor when you right-click.
+
+```css
+.angular2-contextmenu .dropdown-menu {
+  border: solid 1px chartreuse;
+  background-color: darkgreen;
+  padding: 0;
+}
+.angular2-contextmenu li {
+  display: block;
+  border-top: solid 1px chartreuse;
+  text-transform: uppercase;
+  text-align: center;
+}
+.angular2-contextmenu li:first-child {
+  border-top:none;
+}
+.angular2-contextmenu a {
+  color:chartreuse;
+  display: block;
+  padding: 0.5em 1em;
+}
+.angular2-contextmenu a:hover {
+  color:darkgreen;
+  background-color:chartreuse;
+}
+```
+
 ## Bootstrap 4
 
 If you're using Bootstrap 4, you can add a `useBootstrap4` attribute to the `context-menu` component in order to get the appropriate class names.  Like this:
