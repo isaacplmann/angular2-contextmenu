@@ -15,7 +15,7 @@ export interface ILinkConfig {
   `<div class="dropdown angular2-contextmenu">
       <ul [ngStyle]="locationCss" class="dropdown-menu">
         <li *ngFor="let link of links" [class.disabled]="isDisabled(link)">
-          <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && isDisabled(link)" (click)="execute(link, $event); $event.preventDefault();" innerHTML="{{link.html(item)}}"></a>
+          <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && isDisabled(link)" (click)="execute(link, $event); $event.preventDefault(); $event.stopPropagation();" innerHTML="{{link.html(item)}}"></a>
         </li>
       </ul>
     </div>
