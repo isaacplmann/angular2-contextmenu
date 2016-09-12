@@ -1,6 +1,11 @@
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.1.5...v0.2.1) (2016-09-12)
+- Fix type definition for `ContextMenuService` to make `actions` optional
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.1.5...v0.2.0) (2016-09-12)
-
+- Add `ContextMenuItemComponent` for declarative configuration
 
 
 <a name="0.1.11"></a>
