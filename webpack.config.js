@@ -132,7 +132,7 @@ const config = {
     new CopyWebpackPlugin([{from: 'demo/favicon.ico', to: 'favicon.ico'}]),
     new CopyWebpackPlugin([{from: 'demo/assets', to: 'assets'}]),
     // generating html
-    new HtmlWebpackPlugin({template: 'demo/index.html'}),
+    new HtmlWebpackPlugin({template: 'demo/index.html'})
   ],
   pushPlugins() {
     if (!isProduction) {

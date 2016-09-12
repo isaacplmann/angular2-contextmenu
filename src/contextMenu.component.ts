@@ -1,10 +1,12 @@
-import {Component, HostListener, Input, Output, EventEmitter} from '@angular/core';
+import {Component, HostListener, Input, Output, EventEmitter, ContentChildren, QueryList,
+  AfterContentInit} from '@angular/core';
 import {ContextMenuService, IContextMenuClickEvent} from './contextMenu.service';
+import {ContextMenuItemDirective} from './contextMenu.item.component';
 
 export interface ILinkConfig {
-  html: () => string;
   click: (item: any, $event?: MouseEvent) => void;
   enabled?: (item: any) => boolean;
+  html: (item: any) => string;
 }
 
 @Component({
@@ -14,16 +16,27 @@ export interface ILinkConfig {
   template:
   `<div class="dropdown angular2-contextmenu">
       <ul [ngStyle]="locationCss" class="dropdown-menu">
+        <!-- Imperative context menu -->
         <li *ngFor="let link of links" [class.disabled]="isDisabled(link)">
-          <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && isDisabled(link)" (click)="execute(link, $event); $event.preventDefault(); $event.stopPropagation();" innerHTML="{{link.html(item)}}"></a>
+          <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && isDisabled(link)"
+            (click)="execute(link, $event); $event.preventDefault(); $event.stopPropagation();"
+            innerHTML="{{link.html ? link.html(item) : ''}}"></a>
+        </li>
+        <!-- Declarative context menu -->
+        <li *ngFor="let menuItem of menuItems" [class.disabled]="!menuItem.enabled">
+          <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && !menuItem.enabled"
+            (click)="menuItem.triggerExecute(item, $event); $event.preventDefault(); $event.stopPropagation();">
+            <template [ngTemplateOutlet]="menuItem.template" [ngOutletContext]="{ $implicit: item }"></template>
+          </a>
         </li>
       </ul>
     </div>
   `,
 })
-export class ContextMenuComponent {
+export class ContextMenuComponent implements AfterContentInit {
   @Input() public useBootstrap4: boolean = false;
   @Output() public close: EventEmitter<any> = new EventEmitter<any>();
+  @ContentChildren(ContextMenuItemDirective) public menuItems: QueryList<ContextMenuItemDirective>;
 
   public links: ILinkConfig[] = [];
   public isShown: boolean = false;
@@ -31,7 +44,7 @@ export class ContextMenuComponent {
   public item: any;
   private mouseLocation: { left: number, top: number } = { left: 0, top: 0 };
   constructor(private _contextMenuService: ContextMenuService) {
-    _contextMenuService.show.subscribe((e: IContextMenuClickEvent) => this.showMenu(e.event, e.actions, e.item));
+    _contextMenuService.show.subscribe((e: IContextMenuClickEvent) => this.showMenu(e.item, e.event, e.actions));
   }
 
   get locationCss(): any {
@@ -50,11 +63,17 @@ export class ContextMenuComponent {
     }
   }
 
+  public ngAfterContentInit(): void {
+    this.menuItems.map(menuItem => {
+      menuItem.execute.subscribe(() => this.hideMenu());
+    });
+  }
+
   public isDisabled(link: ILinkConfig): boolean {
     return link.enabled && !link.enabled(this.item);
   }
 
-  public execute(link: ILinkConfig, $event?: MouseEvent) {
+  public execute(link: ILinkConfig, $event?: MouseEvent): void {
     if (this.isDisabled(link)) {
       return;
     }
@@ -62,11 +81,23 @@ export class ContextMenuComponent {
     link.click(this.item, $event);
   }
 
-  public showMenu(event: MouseEvent, actions: any[], item: any): void {
+  public showMenu(item: any, event: MouseEvent, actions?: any[]): void {
     this.isOpening = true;
     setTimeout(() => this.isOpening = false, 400);
+    if (actions) {
+      if (console && console.warn) {
+        console.warn(`actions configuration object is deprecated and will be removed in version 1.x.
+        See https://github.com/isaacplmann/angular2-contextmenu for the new declarative syntax.`);
+      }
+    }
     if (actions && actions.length > 0) {
+      // Imperative context menu
       this.isShown = true;
+    } else if (this.menuItems && this.menuItems.map(menuItem => menuItem.enabled).length > 0) {
+      // Declarative context menu
+      this.isShown = true;
+    } else {
+      this.hideMenu();
     }
     this.links = actions;
     this.item = item;

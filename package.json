@@ -1,6 +1,6 @@
 {
   "name": "angular2-contextmenu",
-  "version": "0.1.11",
+  "version": "0.2.0",
   "description": "An Angular 2 component to show a context menu on an arbitrary component",
   "main": "angular2-contextmenu.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "flow.clean": "./node_modules/.bin/del bundles coverage demo-build typings \"components/**/*.+(js|d.ts|js.map)\" dist \"angular2-contextmenu.+(js|d.ts|js.map)\"",
     "flow.deploy:gh-pages": "npm run flow.build:prod && ./node_modules/.bin/gh-pages -d demo-build",
     "flow.eslint": "./node_modules/.bin/eslint --ignore-path .gitignore  --ext js --fix . .config",
-    "flow.tslint": "./node_modules/.bin/gulp lint",
+    "disabled.flow.tslint": "./node_modules/.bin/gulp lint",
     "flow.lint": "npm run flow.eslint && npm run flow.tslint",
     "flow.changelog": "./node_modules/.bin/conventional-changelog -i CHANGELOG.md -s -p angular -v",
     "flow.github-release": "./node_modules/.bin/conventional-github-releaser -p angular",
@@ -44,14 +44,15 @@
     "url": "git+ssh://git@github.com/isaacplmann/angular2-contextmenu.git"
   },
   "devDependencies": {
-    "@angular/common": "^2.0.0-rc.1",
-    "@angular/compiler": "^2.0.0-rc.1",
-    "@angular/core": "^2.0.0-rc.1",
-    "@angular/platform-browser": "^2.0.0-rc.1",
-    "@angular/platform-browser-dynamic": "^2.0.0-rc.1",
+    "@angular/common": "^2.0.0-rc.6",
+    "@angular/compiler": "^2.0.0-rc.6",
+    "@angular/core": "^2.0.0-rc.6",
+    "@angular/platform-browser": "^2.0.0-rc.6",
+    "@angular/platform-browser-dynamic": "^2.0.0-rc.6",
     "async": "1.5.2",
     "bootstrap": "3.3.6",
     "codecov": "1.0.1",
+    "codelyzer": "0.0.28",
     "compression-webpack-plugin": "0.3.1",
     "conventional-changelog-cli": "1.2.0",
     "conventional-github-releaser": "1.1.2",
@@ -86,22 +87,22 @@
     "marked": "0.3.5",
     "phantomjs-polyfill": "0.0.2",
     "phantomjs-prebuilt": "2.1.7",
-    "pre-commit": "1.1.3",
     "prismjs": "1.5.0",
     "prismjs-loader": "0.0.3",
     "raw-loader": "0.5.1",
     "reflect-metadata": "0.1.2",
     "require-dir": "0.3.0",
-    "rxjs": "5.0.0-beta.6",
+    "rxjs": "5.0.0-beta.11",
     "source-map-loader": "0.1.5",
     "systemjs-builder": "0.15.17",
     "ts-loader": "0.8.2",
     "tslint-config-valorsoft": "1.0.3",
+    "tslint-microsoft-contrib": "^2.0.10",
     "typescript": "1.8.10",
     "typings": "0.8.1",
     "webpack": "1.13.1",
     "webpack-dev-server": "1.14.1",
-    "zone.js": "0.6.12"
+    "zone.js": "0.6.17"
   },
   "dependencies": {}
 }

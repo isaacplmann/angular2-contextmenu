@@ -2,9 +2,17 @@
 
 A context menu built with Angular 2 inspired by [ui.bootstrap.contextMenu](https://github.com/Templarian/ui.bootstrap.contextMenu).  Bootstrap classes are included in the markup, but there is no explicit dependency on Bootstrap. [Demo](http://plnkr.co/edit/wpJXpEh4zNZ4uCxTURx2?p=preview)
 
-## Usage
+## Installation
 
 - `npm install angular2-contextmenu`
+- import ContextMenuModule into your app module
+
+## Usage
+
+### Declarative vs. Imperative
+
+With version 0.2.0, there is a new declarative syntax that allows for quite a bit more flexibility and keeps html out of configuration objects.
+The older syntax is deprecated and will be removed in version 1.x.  (I have no timeline on when I'll release 1.x, but wanted to give everyone advance warning.)
 
 ### Template
 
@@ -12,17 +20,22 @@ A context menu built with Angular 2 inspired by [ui.bootstrap.contextMenu](https
 <ul>
     <li *ngFor="item in items" (contextmenu)="onContextMenu($event, item)">Right Click: {{item.name}}</li>
 </ul>
-<context-menu></context-menu>
+<context-menu>
+  <template context-menu-item (execute)="alert('Hi, ' + $event.item.name)">
+    Say hi!
+  </template>
+  <template context-menu-item let-item (execute)="alert('Bye, ' + $event.item.name)">
+    Bye, {{item.name}}
+  </template>
+</context-menu>
 ```
 
 ### Component Code
 
 ```js
-import { ContextMenuComponent, ContextMenuService } from 'angular2-contextmenu';
+import { ContextMenuService } from 'angular2-contextmenu';
 
 @Component({
-  directives: [ ContextMenuComponent ],
-  providers: [ ContextMenuService ],
   ...
 })
 export class MyContextMenuClass {
@@ -34,70 +47,32 @@ export class MyContextMenuClass {
   constructor(private contextMenuService: ContextMenuService) {}
 
   public onContextMenu($event: MouseEvent, item: any): void {
-    this.contextMenuService.show.next({
-      actions: [
-        {
-          html: () => `Say hi!`,
-          click: (item) => alert('Hi, ' + item.name)
-        },
-        {
-          html: () => `Something else`,
-          click: (item) => alert('Or not...')
-        },
-      ],
-      event: $event,
-      item: item,
-    });
+    this.contextMenuService.show.next({ event: $event, item: item });
     $event.preventDefault();
   }
 }
 ```
 
-## Menu Options
+## Context Menu Items
 
-Every menu option has an `html` function and a `click` function.
+- Each context menu item is a `<template>` element with the `context-menu-item` attribute directive applied.
+- If the `item` object is used in the context menu item template, the `let-item` attribute must be applied to the `<template>` element. 
+  ** Note: ** Make sure to use the `item?.property` syntax in the template rather than `item.property` as the item will be initially `undefined`.
+- Every context menu item emits `execute` events. The `$event` object is of the form `{ event: MouseEvent, item: any }` where `event` is the mouse click event
+  that triggered the execution and `item` is the current item.
+- The `enabled` input parameter is optional.  Items are enabled by default.
+- Within the template, you have access to any components and variables available in the outer context.
 
-The `enabled` function is optional.  If the function returns true, the item is enabled (default). If no function is provided, the item will be enabled by default.
-
-```js
-public menuOptions = [
-  {
-    html: (): string => {
-      return 'Something';
-    },
-    click: (item, $event): void {
-      // Action
-    },
-    enabled: (item, $event): boolean {
-      // Enable or Disable
-      return true; // enabled = true, disabled = false
-    }
-  }
-];
+```html
+<context-menu>
+  <template context-menu-item let-item [enabled]="isItemEnabled(item)" (execute)="alert('Hi, ' + $event.item.name); $event.event.preventDefault();">
+    Say hi, {{item?.name}}!  <my-component [attribute]="item"></my-component>
+    With access to the outside context: {{ outsideValue }}
+  </template>
+</context-menu>
 ```
-
-
-## Custom HTML
-
 ```js
-let customHtml = `<div style="cursor: pointer; background-color: pink">
-                 <i class="glyphicon glyphicon-ok-sign"></i> Testing Custom </div>`;
-
-let customItem = {
-    html: () => customHtml,
-    enabled: function() {return true},
-    click: function (item, $event) {
-        alert("custom html");
-    }};
-
-this.customHTMLOptions = [
-  customItem,
-  {
-    html: () => 'Example 1',
-    click: (item, $event): void {
-      alert("Example 1");
-    }
-  }];
+this.outsideValue = "something";
 ```
 
 ## Custom Styles
@@ -108,7 +83,7 @@ The html that is generated for the context menu looks like this:
 <div class="dropdown angular2-contextmenu">
   <ul class="dropdown-menu">
     <li>
-      <a><!-- the return value of the html() function for each link goes here --></a>
+      <a><!-- the template for each context menu item goes here --></a>
     </li>
   </ul>
 </div>
@@ -156,4 +131,53 @@ There is a `(close)` output EventEmitter that you can subscribe to for notificat
 
 ```html
 <context-menu (close)="processContextMenuCloseEvent()"></context-menu>
+```
+
+## Deprecated syntax
+
+This alternate, deprecated syntax will continue working until version 1.x.
+
+### Template
+
+```html
+<ul>
+    <li *ngFor="item in items" (contextmenu)="onContextMenu($event, item)">Right Click: {{item.name}}</li>
+</ul>
+<context-menu></context-menu>
+```
+
+### Component Code
+
+```js
+import { ContextMenuService } from 'angular2-contextmenu';
+
+@Component({
+  ...
+})
+export class MyContextMenuClass {
+  public items = [
+      { name: 'John', otherProperty: 'Foo' },
+      { name: 'Joe', otherProperty: 'Bar' }
+  };
+
+  constructor(private contextMenuService: ContextMenuService) {}
+
+  public onContextMenu($event: MouseEvent, item: any): void {
+    this.contextMenuService.show.next({
+      actions: [
+        {
+          html: (item) => `Say hi!`,
+          click: (item) => alert('Hi, ' + item.name)
+        },
+        {
+          html: (item) => `Something else`,
+          click: (item) => alert('Or not...')
+        },
+      ],
+      event: $event,
+      item: item,
+    });
+    $event.preventDefault();
+  }
+}
 ```
