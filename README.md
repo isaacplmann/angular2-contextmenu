@@ -21,10 +21,10 @@ The older syntax is deprecated and will be removed in version 1.x.  (I have no t
     <li *ngFor="item in items" (contextmenu)="onContextMenu($event, item)">Right Click: {{item.name}}</li>
 </ul>
 <context-menu>
-  <template context-menu-item (execute)="alert('Hi, ' + $event.item.name)">
+  <template contextMenuItem (execute)="alert('Hi, ' + $event.item.name)">
     Say hi!
   </template>
-  <template context-menu-item let-item (execute)="alert('Bye, ' + $event.item.name)">
+  <template contextMenuItem let-item (execute)="alert('Bye, ' + $event.item.name)">
     Bye, {{item.name}}
   </template>
 </context-menu>
@@ -55,7 +55,7 @@ export class MyContextMenuClass {
 
 ## Context Menu Items
 
-- Each context menu item is a `<template>` element with the `context-menu-item` attribute directive applied.
+- Each context menu item is a `<template>` element with the `contextMenuItem` attribute directive applied.
 - If the `item` object is used in the context menu item template, the `let-item` attribute must be applied to the `<template>` element. 
   ** Note: ** Make sure to use the `item?.property` syntax in the template rather than `item.property` as the item will be initially `undefined`.
 - Every context menu item emits `execute` events. The `$event` object is of the form `{ event: MouseEvent, item: any }` where `event` is the mouse click event
@@ -65,7 +65,7 @@ export class MyContextMenuClass {
 
 ```html
 <context-menu>
-  <template context-menu-item let-item [enabled]="isItemEnabled(item)" (execute)="alert('Hi, ' + $event.item.name); $event.event.preventDefault();">
+  <template contextMenuItem let-item [enabled]="isItemEnabled(item)" (execute)="alert('Hi, ' + $event.item.name); $event.event.preventDefault();">
     Say hi, {{item?.name}}!  <my-component [attribute]="item"></my-component>
     With access to the outside context: {{ outsideValue }}
   </template>
