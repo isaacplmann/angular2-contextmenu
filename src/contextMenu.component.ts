@@ -96,7 +96,7 @@ export class ContextMenuComponent implements AfterContentInit {
     } else if (this.menuItems) {
       // Declarative context menu
       setTimeout(() => {
-        if (this.menuItems.filter(menuItem => menuItem.enabled).length > 0) {
+        if (this.menuItems.filter(menuItem => menuItem.visible).length > 0) {
           this.isShown = true;
         }
       });
