@@ -98,6 +98,8 @@ export class ContextMenuComponent implements AfterContentInit {
       setTimeout(() => {
         if (this.menuItems.filter(menuItem => menuItem.visible).length > 0) {
           this.showMenu();
+        } else {
+          this.hideMenu();
         }
       });
     } else {
