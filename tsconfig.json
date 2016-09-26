@@ -21,5 +21,8 @@
   "files": [
     "./typings/browser.d.ts",
     "./angular2-contextmenu.ts"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "genDir": "compiled"
+  }
 }

@@ -21,3 +21,5 @@ webpack.config.js
 !*.d.ts
 /src/**/*.ts
 !/src/**/*.d.ts
+
+compiled
