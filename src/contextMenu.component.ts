@@ -1,5 +1,5 @@
 import {Component, HostListener, Input, Output, EventEmitter, ContentChildren, QueryList,
-  AfterContentInit} from '@angular/core';
+  AfterContentInit, ChangeDetectorRef} from '@angular/core';
 import {ContextMenuService, IContextMenuClickEvent} from './contextMenu.service';
 import {ContextMenuItemDirective} from './contextMenu.item.component';
 
@@ -43,8 +43,8 @@ export class ContextMenuComponent implements AfterContentInit {
   public isOpening: boolean = false;
   public item: any;
   private mouseLocation: { left: number, top: number } = { left: 0, top: 0 };
-  constructor(private _contextMenuService: ContextMenuService) {
-    _contextMenuService.show.subscribe((e: IContextMenuClickEvent) => this.showMenu(e.item, e.event, e.actions));
+  constructor(private _contextMenuService: ContextMenuService, private changeDetector: ChangeDetectorRef) {
+    _contextMenuService.show.subscribe((e: IContextMenuClickEvent) => this.onMenuEvent(e.item, e.event, e.actions));
   }
 
   get locationCss(): any {
@@ -81,7 +81,7 @@ export class ContextMenuComponent implements AfterContentInit {
     link.click(this.item, $event);
   }
 
-  public showMenu(item: any, event: MouseEvent, actions?: any[]): void {
+  public onMenuEvent(item: any, event: MouseEvent, actions?: any[]): void {
     this.isOpening = true;
     setTimeout(() => this.isOpening = false, 400);
     if (actions) {
@@ -92,12 +92,12 @@ export class ContextMenuComponent implements AfterContentInit {
     }
     if (actions && actions.length > 0) {
       // Imperative context menu
-      this.isShown = true;
+      this.showMenu();
     } else if (this.menuItems) {
       // Declarative context menu
       setTimeout(() => {
         if (this.menuItems.filter(menuItem => menuItem.visible).length > 0) {
-          this.isShown = true;
+          this.showMenu();
         }
       });
     } else {
@@ -111,10 +111,16 @@ export class ContextMenuComponent implements AfterContentInit {
     };
   }
 
+  public showMenu(): void {
+    this.isShown = true;
+    this.changeDetector.markForCheck();
+  }
+
   public hideMenu(): void {
     if (this.isShown === true) {
       this.close.emit({});
     }
     this.isShown = false;
+    this.changeDetector.markForCheck();
   }
 }
