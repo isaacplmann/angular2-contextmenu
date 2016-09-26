@@ -23,7 +23,7 @@ export interface ILinkConfig {
             innerHTML="{{link.html ? link.html(item) : ''}}"></a>
         </li>
         <!-- Declarative context menu -->
-        <li *ngFor="let menuItem of menuItems" [class.disabled]="!menuItem.enabled">
+        <li *ngFor="let menuItem of menuItems" [class.disabled]="!menuItem.enabled" [hidden]="!menuItem.visible">
           <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && !menuItem.enabled"
             (click)="menuItem.triggerExecute(item, $event); $event.preventDefault(); $event.stopPropagation();">
             <template [ngTemplateOutlet]="menuItem.template" [ngOutletContext]="{ $implicit: item }"></template>
@@ -64,7 +64,7 @@ export class ContextMenuComponent implements AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    this.menuItems.map(menuItem => {
+    this.menuItems.forEach(menuItem => {
       menuItem.execute.subscribe(() => this.hideMenu());
     });
   }
@@ -93,9 +93,13 @@ export class ContextMenuComponent implements AfterContentInit {
     if (actions && actions.length > 0) {
       // Imperative context menu
       this.isShown = true;
-    } else if (this.menuItems && this.menuItems.map(menuItem => menuItem.enabled).length > 0) {
+    } else if (this.menuItems) {
       // Declarative context menu
-      this.isShown = true;
+      setTimeout(() => {
+        if (this.menuItems.filter(menuItem => menuItem.enabled).length > 0) {
+          this.isShown = true;
+        }
+      });
     } else {
       this.hideMenu();
     }

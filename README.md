@@ -61,11 +61,12 @@ export class MyContextMenuClass {
 - Every context menu item emits `execute` events. The `$event` object is of the form `{ event: MouseEvent, item: any }` where `event` is the mouse click event
   that triggered the execution and `item` is the current item.
 - The `enabled` input parameter is optional.  Items are enabled by default.
+- The `visible` input parameter is optional.  Items are visible by default.  This property enables you to show certain context menu items based on what the data item is.
 - Within the template, you have access to any components and variables available in the outer context.
 
 ```html
 <context-menu>
-  <template contextMenuItem let-item [enabled]="isItemEnabled(item)" (execute)="alert('Hi, ' + $event.item.name); $event.event.preventDefault();">
+  <template contextMenuItem let-item [visible]="item.type === 'type1'" [enabled]="isMenuItemEnabled(item)" (execute)="alert('Hi, ' + $event.item.name); $event.event.preventDefault();">
     Say hi, {{item?.name}}!  <my-component [attribute]="item"></my-component>
     With access to the outside context: {{ outsideValue }}
   </template>
