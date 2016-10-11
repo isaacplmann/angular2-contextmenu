@@ -18,19 +18,93 @@ The older syntax is deprecated and will be removed in version 1.x.  (I have no t
 
 ```html
 <ul>
-    <li *ngFor="item in items" (contextmenu)="onContextMenu($event, item)">Right Click: {{item.name}}</li>
+    <li *ngFor="let item of items" [contextMenu]="basicMenu" [contextMenuSubject]="item">Right Click: {{item?.name}}</li>
 </ul>
 <context-menu>
-  <template contextMenuItem (execute)="alert('Hi, ' + $event.item.name)">
+  <template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
     Say hi!
   </template>
-  <template contextMenuItem let-item (execute)="alert('Bye, ' + $event.item.name)">
-    Bye, {{item.name}}
+  <template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+    Bye, {{item?.name}}
   </template>
 </context-menu>
 ```
 
 ### Component Code
+
+```js
+@Component({
+  ...
+})
+export class MyContextMenuClass {
+  public items = [
+      { name: 'John', otherProperty: 'Foo' },
+      { name: 'Joe', otherProperty: 'Bar' }
+  };
+  @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
+}
+```
+
+## Context Menu Items
+
+- Each context menu item is a `<template>` element with the `contextMenuItem` attribute directive applied.
+- If the `item` object is used in the context menu item template, the `let-item` attribute must be applied to the `<template>` element. 
+  ** Note: ** Make sure to use the `item?.property` syntax in the template rather than `item.property` as the item will be initially `undefined`.
+- Every context menu item emits `execute` events. The `$event` object is of the form `{ event: MouseEvent, item: any }` where `event` is the mouse click event
+  that triggered the execution and `item` is the current item.
+- The `enabled` input parameter is optional.  Items are enabled by default.
+  This can be a boolean value or a function definition that takes an item and returns a boolean.
+- The `visible` input parameter is optional.  Items are visible by default.  This property enables you to show certain context menu items based on what the data item is.
+  This can be a boolean value or a function definition that takes an item and returns a boolean.
+- Within the template, you have access to any components and variables available in the outer context.
+
+```html
+<context-menu>
+  <template contextMenuItem let-item [visible]="isMenuItemType1" [enabled]="false" (execute)="showMessage('Hi, ' + $event.item.name)">
+    Say hi, {{item?.name}}!  <my-component [attribute]="item"></my-component>
+    With access to the outside context: {{ outsideValue }}
+  </template>
+</context-menu>
+```
+```js
+public outsideValue = "something";
+public isMenuItemType1(item: any): boolean {
+  return item.type === 'type1';
+}
+```
+
+## Multiple Context Menus
+You can use multiple context menus in the same component if you would like.
+
+```html
+<ul>
+    <li *ngFor="let item of items" [contextMenu]="basicMenu" [contextMenuSubject]="item">{{item?.name}}</li>
+</ul>
+<context-menu #basicMenu>
+  ...
+</context-menu>
+
+<ul>
+    <li *ngFor="let item of items" [contextMenu]="otherMenu" [contextMenuSubject]="item">{{item?.name}}</li>
+</ul>
+<context-menu #otherMenu>
+  ...
+</context-menu>
+```
+
+```js
+@ViewChild('basicMenu') public basicMenu: ContextMenuComponent;
+@ViewChild('otherMenu') public otherMenu: ContextMenuComponent;
+```
+
+## Context Menu In a Different Component
+If your `<context-menu>` component is in a different component from your list, you'll need to wire up the context menu event yourself.
+
+```html
+<ul>
+    <li *ngFor="item in items" (contextmenu)="onContextMenu($event, item)">Right Click: {{item.name}}</li>
+</ul>
+```
 
 ```js
 import { ContextMenuService } from 'angular2-contextmenu';
@@ -47,33 +121,14 @@ export class MyContextMenuClass {
   constructor(private contextMenuService: ContextMenuService) {}
 
   public onContextMenu($event: MouseEvent, item: any): void {
-    this.contextMenuService.show.next({ event: $event, item: item });
+    this.contextMenuService.show.next({
+      event: $event,
+      item: item,
+    });
     $event.preventDefault();
+    $event.stopPropagation();
   }
 }
-```
-
-## Context Menu Items
-
-- Each context menu item is a `<template>` element with the `contextMenuItem` attribute directive applied.
-- If the `item` object is used in the context menu item template, the `let-item` attribute must be applied to the `<template>` element. 
-  ** Note: ** Make sure to use the `item?.property` syntax in the template rather than `item.property` as the item will be initially `undefined`.
-- Every context menu item emits `execute` events. The `$event` object is of the form `{ event: MouseEvent, item: any }` where `event` is the mouse click event
-  that triggered the execution and `item` is the current item.
-- The `enabled` input parameter is optional.  Items are enabled by default.
-- The `visible` input parameter is optional.  Items are visible by default.  This property enables you to show certain context menu items based on what the data item is.
-- Within the template, you have access to any components and variables available in the outer context.
-
-```html
-<context-menu>
-  <template contextMenuItem let-item [visible]="item.type === 'type1'" [enabled]="isMenuItemEnabled(item)" (execute)="alert('Hi, ' + $event.item.name); $event.event.preventDefault();">
-    Say hi, {{item?.name}}!  <my-component [attribute]="item"></my-component>
-    With access to the outside context: {{ outsideValue }}
-  </template>
-</context-menu>
-```
-```js
-this.outsideValue = "something";
 ```
 
 ## Custom Styles
@@ -179,6 +234,7 @@ export class MyContextMenuClass {
       item: item,
     });
     $event.preventDefault();
+    $event.stopPropagation();
   }
 }
 ```

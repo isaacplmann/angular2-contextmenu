@@ -1,7 +1,7 @@
 import {Component, HostListener, Input, Output, EventEmitter, ContentChildren, QueryList,
   AfterContentInit, ChangeDetectorRef} from '@angular/core';
 import {ContextMenuService, IContextMenuClickEvent} from './contextMenu.service';
-import {ContextMenuItemDirective} from './contextMenu.item.component';
+import {ContextMenuItemDirective} from './contextMenu.item.directive';
 
 export interface ILinkConfig {
   click: (item: any, $event?: MouseEvent) => void;
@@ -15,7 +15,7 @@ export interface ILinkConfig {
   ],
   template:
   `<div class="dropdown angular2-contextmenu">
-      <ul [ngStyle]="locationCss" class="dropdown-menu">
+      <ul *ngIf="item" [ngStyle]="locationCss" class="dropdown-menu">
         <!-- Imperative context menu -->
         <li *ngFor="let link of links" [class.disabled]="isDisabled(link)">
           <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && isDisabled(link)"
@@ -23,8 +23,9 @@ export interface ILinkConfig {
             innerHTML="{{link.html ? link.html(item) : ''}}"></a>
         </li>
         <!-- Declarative context menu -->
-        <li *ngFor="let menuItem of menuItems" [class.disabled]="!menuItem.enabled" [hidden]="!menuItem.visible">
-          <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && !menuItem.enabled"
+        <li *ngFor="let menuItem of menuItems" [hidden]="!isMenuItemVisible(menuItem)"
+          [class.disabled]="!isMenuItemEnabled(menuItem)">
+          <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && !isMenuItemEnabled(menuItem)"
             (click)="menuItem.triggerExecute(item, $event); $event.preventDefault(); $event.stopPropagation();">
             <template [ngTemplateOutlet]="menuItem.template" [ngOutletContext]="{ $implicit: item }"></template>
           </a>
@@ -44,7 +45,7 @@ export class ContextMenuComponent implements AfterContentInit {
   public item: any;
   private mouseLocation: { left: number, top: number } = { left: 0, top: 0 };
   constructor(private _contextMenuService: ContextMenuService, private changeDetector: ChangeDetectorRef) {
-    _contextMenuService.show.subscribe((e: IContextMenuClickEvent) => this.onMenuEvent(e.item, e.event, e.actions));
+    _contextMenuService.show.subscribe(menuEvent => this.onMenuEvent(menuEvent));
   }
 
   get locationCss(): any {
@@ -57,6 +58,7 @@ export class ContextMenuComponent implements AfterContentInit {
   }
 
   @HostListener('document:click')
+  @HostListener('document:contextmenu')
   public clickedOutside(): void {
     if (!this.isOpening) {
       this.hideMenu();
@@ -67,6 +69,21 @@ export class ContextMenuComponent implements AfterContentInit {
     this.menuItems.forEach(menuItem => {
       menuItem.execute.subscribe(() => this.hideMenu());
     });
+  }
+
+  public isMenuItemEnabled(menuItem: ContextMenuItemDirective): boolean {
+    return this.evaluateIfFunction(menuItem.enabled);
+  }
+
+  public isMenuItemVisible(menuItem: ContextMenuItemDirective): boolean {
+    return this.evaluateIfFunction(menuItem.visible);
+  }
+
+  public evaluateIfFunction(value: any): any {
+    if (value instanceof Function) {
+      return value(this.item);
+    }
+    return value;
   }
 
   public isDisabled(link: ILinkConfig): boolean {
@@ -81,7 +98,12 @@ export class ContextMenuComponent implements AfterContentInit {
     link.click(this.item, $event);
   }
 
-  public onMenuEvent(item: any, event: MouseEvent, actions?: any[]): void {
+  public onMenuEvent(menuEvent: IContextMenuClickEvent): void {
+    let { actions, contextMenu, event, item } = menuEvent;
+    if (contextMenu && contextMenu !== this) {
+      this.hideMenu();
+      return;
+    }
     this.isOpening = true;
     setTimeout(() => this.isOpening = false, 400);
     if (actions) {
@@ -96,7 +118,7 @@ export class ContextMenuComponent implements AfterContentInit {
     } else if (this.menuItems) {
       // Declarative context menu
       setTimeout(() => {
-        if (this.menuItems.filter(menuItem => menuItem.visible).length > 0) {
+        if (this.menuItems.filter(menuItem => this.isMenuItemVisible(menuItem)).length > 0) {
           this.showMenu();
         } else {
           this.hideMenu();

@@ -8,6 +8,7 @@ const reqPrism = require('prismjs');
 const CompressionPlugin = require('compression-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const combineLoaders = require('webpack-combine-loaders');
 
 // marked renderer hack
 marked.Renderer.prototype.code = function renderCode(code, lang) {
@@ -102,13 +103,13 @@ const config = {
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loader: 'ts',
-        query: {
-          compilerOptions: {
-            removeComments: true,
-            noEmitHelpers: false
-          }
-        },
+        loader: combineLoaders([{ loader: 'ts' }, { loader: 'angular2-template-loader' }]),
+        // query: {
+        //   compilerOptions: {
+        //     removeComments: true,
+        //     noEmitHelpers: false
+        //   }
+        // },
         exclude: [/\.(spec|e2e)\.ts$/]
       }
     ],

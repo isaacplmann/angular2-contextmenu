@@ -1,0 +1,48 @@
+<h1>Angular2 Context Menu Demo</h1>
+<h3>Base Case</h3>
+<ul>
+    <li *ngFor="let item of items" [contextMenu]="basicMenu" [contextMenuSubject]="item">Right Click: {{item?.name}}</li>
+</ul>
+<context-menu #basicMenu>
+  <template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
+    Say hi!
+  </template>
+  <template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+    Bye, {{item?.name}}
+  </template>
+</context-menu>
+
+<h3>Enabled and Visible</h3>
+<ul>
+    <li *ngFor="let item of items" [contextMenu]="enableAndVisible" [contextMenuSubject]="item">Right Click: {{item?.name}}</li>
+</ul>
+<context-menu #enableAndVisible>
+  <template contextMenuItem let-item [visible]="true" [enabled]="false"
+    (execute)="showMessage('Hi, ' + $event.item.name)">
+    Say hi, {{item?.name}}!
+    With access to the outside context: {{ outsideValue }}
+  </template>
+  <template contextMenuItem [visible]="false" (execute)="showMessage('Hi, ' + $event.item.name)">
+    This will never show...
+  </template>
+  <template contextMenuItem let-item [visible]="true" [enabled]="true"
+    (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+    Bye, {{item?.name}}
+  </template>
+</context-menu>
+
+<h3>Enabled and Visible as Functions</h3>
+<ul>
+    <li *ngFor="let item of items" [contextMenu]="withFunctions" [contextMenuSubject]="item">Right Click: {{item?.name}}</li>
+</ul>
+<context-menu #withFunctions>
+  <template contextMenuItem [enabled]="onlyJohn" (execute)="showMessage('Hi, ' + $event.item.name)">
+    Say hi! (enabled for John)
+  </template>
+  <template contextMenuItem [visible]="onlyJoe" (execute)="showMessage('Hi, ' + $event.item.name)">
+    Say hi! (visible for Joe)
+  </template>
+  <template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+    Bye, {{item?.name}}
+  </template>
+</context-menu>

@@ -1,3 +1,10 @@
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.1.5...v0.4.0) (2016-10-11)
+- `[contextMenu]` and `[contextMenuSubject]` to automate wiring up the context menu
+- `[visible]` and `[enabled]` can be booleans or functions
+- Can have multiple context menus per component
+
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.1.5...v0.2.1) (2016-09-12)
 - Fix type definition for `ContextMenuService` to make `actions` optional
