@@ -12,8 +12,15 @@ export class ContextMenuItemDirective {
 
   constructor(private template: TemplateRef<{item: any}>) {}
 
+  public evaluateIfFunction(value: any, item: any): any {
+    if (value instanceof Function) {
+      return value(item);
+    }
+    return value;
+  }
+
   public triggerExecute(item: any, $event?: MouseEvent): void {
-    if (!this.enabled) {
+    if (!this.evaluateIfFunction(this.enabled, item)) {
       return;
     }
     this.execute.emit({event: $event, item});
