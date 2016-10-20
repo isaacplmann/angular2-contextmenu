@@ -175,7 +175,20 @@ You can key off of the `angular2-contextmenu` class to create your own styles.  
 
 ## Bootstrap 4
 
-If you're using Bootstrap 4, you can add a `useBootstrap4` attribute to the `context-menu` component in order to get the appropriate class names.  Like this:
+If you're using Bootstrap 4, you can specify a `useBootstrap4` property in the `withOptions` function of the `ContextMenuModule` in order to get the appropriate class names.  Like this:
+
+```js
+@NgModule({
+  import: [
+    ContextMenuModule.withOptions({
+      useBootstrap4: true,
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+**Or, if you want to repeat yourself,** you can add a `useBootstrap4` attribute to each `context-menu` component.  Like this:
 
 ```html
 <context-menu [useBootstrap4]="true"></context-menu>

@@ -1,7 +1,19 @@
-import {Component, HostListener, Input, Output, EventEmitter, ContentChildren, QueryList,
-  AfterContentInit, ChangeDetectorRef} from '@angular/core';
-import {ContextMenuService, IContextMenuClickEvent} from './contextMenu.service';
-import {ContextMenuItemDirective} from './contextMenu.item.directive';
+import { CONTEXT_MENU_OPTIONS, IContextMenuOptions } from './contextMenu.options';
+import {
+  AfterContentInit,
+  ChangeDetectorRef,
+  Component,
+  ContentChildren,
+  EventEmitter,
+  HostListener,
+  Inject,
+  Input,
+  Optional,
+  Output,
+  QueryList
+} from '@angular/core';
+import { ContextMenuService, IContextMenuClickEvent } from './contextMenu.service';
+import { ContextMenuItemDirective } from './contextMenu.item.directive';
 
 export interface ILinkConfig {
   click: (item: any, $event?: MouseEvent) => void;
@@ -44,7 +56,16 @@ export class ContextMenuComponent implements AfterContentInit {
   public isOpening: boolean = false;
   public item: any;
   private mouseLocation: { left: number, top: number } = { left: 0, top: 0 };
-  constructor(private _contextMenuService: ContextMenuService, private changeDetector: ChangeDetectorRef) {
+  constructor(
+    private _contextMenuService: ContextMenuService,
+    private changeDetector: ChangeDetectorRef,
+    @Optional()
+    @Inject(CONTEXT_MENU_OPTIONS) private options: IContextMenuOptions
+  ) {
+    console.log(options);
+    if (options) {
+      this.useBootstrap4 = options.useBootstrap4;
+    }
     _contextMenuService.show.subscribe(menuEvent => this.onMenuEvent(menuEvent));
   }
 
