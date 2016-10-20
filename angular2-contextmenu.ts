@@ -28,7 +28,7 @@ export * from './src/contextMenu.service';
   ],
 })
 export class ContextMenuModule {
-  public static withOptions(options: IContextMenuOptions): ModuleWithProviders {
+  public static forRoot(options: IContextMenuOptions): ModuleWithProviders {
     return {
       ngModule: ContextMenuModule,
       providers: [
