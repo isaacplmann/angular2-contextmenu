@@ -40,7 +40,7 @@ export class MyContextMenuClass {
   public items = [
       { name: 'John', otherProperty: 'Foo' },
       { name: 'Joe', otherProperty: 'Bar' }
-  };
+  ];
   @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
 }
 ```
@@ -70,6 +70,21 @@ export class MyContextMenuClass {
 public outsideValue = "something";
 public isMenuItemType1(item: any): boolean {
   return item.type === 'type1';
+}
+```
+
+## Binding `this` for `visible` and `enabled` functions
+
+If you need access to properties in your component from within the `enabled` or `visible` functions, you'll need to pass in a version of the function with `this` bound to your component.
+
+```html
+<template ... [visible]="isMenuItemOutsideValueBound">
+```
+```js
+public outsideValue = "something";
+public isMenuItemOutsideValueBound = this.isMenuItemOutsideValue.bind(this);
+public isMenuItemOutsideValue(item: any): boolean {
+  return item.type === this.outsideValue;
 }
 ```
 
@@ -116,7 +131,7 @@ export class MyContextMenuClass {
   public items = [
       { name: 'John', otherProperty: 'Foo' },
       { name: 'Joe', otherProperty: 'Bar' }
-  };
+  ];
 
   constructor(private contextMenuService: ContextMenuService) {}
 
@@ -227,7 +242,7 @@ export class MyContextMenuClass {
   public items = [
       { name: 'John', otherProperty: 'Foo' },
       { name: 'Joe', otherProperty: 'Bar' }
-  };
+  ];
 
   constructor(private contextMenuService: ContextMenuService) {}
 

@@ -62,7 +62,6 @@ export class ContextMenuComponent implements AfterContentInit {
     @Optional()
     @Inject(CONTEXT_MENU_OPTIONS) private options: IContextMenuOptions
   ) {
-    console.log(options);
     if (options) {
       this.useBootstrap4 = options.useBootstrap4;
     }
