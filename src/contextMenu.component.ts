@@ -35,8 +35,7 @@ export interface ILinkConfig {
             innerHTML="{{link.html ? link.html(item) : ''}}"></a>
         </li>
         <!-- Declarative context menu -->
-        <li *ngFor="let menuItem of menuItems" [hidden]="!isMenuItemVisible(menuItem)"
-          [class.disabled]="!isMenuItemEnabled(menuItem)">
+        <li *ngFor="let menuItem of visibleMenuItems" [class.disabled]="!isMenuItemEnabled(menuItem)">
           <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && !isMenuItemEnabled(menuItem)"
             (click)="menuItem.triggerExecute(item, $event); $event.preventDefault(); $event.stopPropagation();">
             <template [ngTemplateOutlet]="menuItem.template" [ngOutletContext]="{ $implicit: item }"></template>
@@ -50,6 +49,7 @@ export class ContextMenuComponent implements AfterContentInit {
   @Input() public useBootstrap4: boolean = false;
   @Output() public close: EventEmitter<any> = new EventEmitter<any>();
   @ContentChildren(ContextMenuItemDirective) public menuItems: QueryList<ContextMenuItemDirective>;
+  public visibleMenuItems: ContextMenuItemDirective[] = [];
 
   public links: ILinkConfig[] = [];
   public isShown: boolean = false;
@@ -134,11 +134,13 @@ export class ContextMenuComponent implements AfterContentInit {
     }
     if (actions && actions.length > 0) {
       // Imperative context menu
+      this.setVisibleMenuItems();
       this.showMenu();
     } else if (this.menuItems) {
       // Declarative context menu
       setTimeout(() => {
-        if (this.menuItems.filter(menuItem => this.isMenuItemVisible(menuItem)).length > 0) {
+        this.setVisibleMenuItems();
+        if (this.visibleMenuItems.length > 0) {
           this.showMenu();
         } else {
           this.hideMenu();
@@ -153,6 +155,10 @@ export class ContextMenuComponent implements AfterContentInit {
       left: event.clientX,
       top: event.clientY,
     };
+  }
+
+  public setVisibleMenuItems(): void {
+    this.visibleMenuItems = this.menuItems.filter(menuItem => this.isMenuItemVisible(menuItem));
   }
 
   public showMenu(): void {
