@@ -1,3 +1,13 @@
+<a name="0.5.3"></a>
+## [0.5.3](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.5.2...v0.5.3) (2016-12-02)
+
+
+### Bug Fixes
+
+* **styles:** Remove invisible context menu items from the DOM instead of using [hidden] attribute ([1a7121e](https://github.com/isaacplmann/angular2-contextmenu/commit/1a7121e))
+
+
+
 <a name="0.5.1"></a>
 # [0.5.1](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.4.1...v0.5.1) (2016-10-20)
 - Add `forRoot` function to globally set `useBootstrap4`
