@@ -146,6 +146,18 @@ export class MyContextMenuClass {
 }
 ```
 
+## Triggering the Context Menu with a Different Event
+The context menu can be triggered at any point using the method above.  For instance, to trigger the context menu
+with a left click instead of a right click, use this html:
+
+```html
+<ul>
+    <li *ngFor="item in items" (click)="onContextMenu($event, item)">Left Click: {{item.name}}</li>
+</ul>
+```
+
+This could be `(keydown)`, `(mouseover)`, or `(myCustomEvent)` as well.
+
 ## Custom Styles
 
 The html that is generated for the context menu looks like this:
