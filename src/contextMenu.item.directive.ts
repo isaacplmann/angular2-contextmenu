@@ -6,6 +6,7 @@ import {Directive, Input, Output, EventEmitter, TemplateRef} from '@angular/core
   /* tslint:enable:directive-selector-type */
 })
 export class ContextMenuItemDirective {
+  @Input() public divider: boolean = false;
   @Input() public enabled: boolean | ((item: any) => boolean) = true;
   @Input() public visible: boolean | ((item: any) => boolean) = true;
   @Output() public execute: EventEmitter<{ event: Event, item: any }> = new EventEmitter<{ event: Event, item: any }>();

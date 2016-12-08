@@ -10,7 +10,7 @@ import {
   Input,
   Optional,
   Output,
-  QueryList
+  QueryList,
 } from '@angular/core';
 import { ContextMenuService, IContextMenuClickEvent } from './contextMenu.service';
 import { ContextMenuItemDirective } from './contextMenu.item.directive';
@@ -35,8 +35,10 @@ export interface ILinkConfig {
             innerHTML="{{link.html ? link.html(item) : ''}}"></a>
         </li>
         <!-- Declarative context menu -->
-        <li *ngFor="let menuItem of visibleMenuItems" [class.disabled]="!isMenuItemEnabled(menuItem)">
-          <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && !isMenuItemEnabled(menuItem)"
+        <li *ngFor="let menuItem of visibleMenuItems" [class.disabled]="!isMenuItemEnabled(menuItem)"
+          [attr.role]="menuItem.divider ? 'separator' : undefined" [class.divider]="menuItem.divider">
+          <a *ngIf="!menuItem.divider" href [class.dropdown-item]="useBootstrap4"
+            [class.disabled]="useBootstrap4 && !isMenuItemEnabled(menuItem)"
             (click)="menuItem.triggerExecute(item, $event); $event.preventDefault(); $event.stopPropagation();">
             <template [ngTemplateOutlet]="menuItem.template" [ngOutletContext]="{ $implicit: item }"></template>
           </a>

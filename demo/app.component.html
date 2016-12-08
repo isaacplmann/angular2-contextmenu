@@ -25,6 +25,7 @@
   <template contextMenuItem [visible]="false" (execute)="showMessage('Hi, ' + $event.item.name)">
     This will never show...
   </template>
+  <template contextMenuItem [divider]="true"></template>
   <template contextMenuItem let-item [visible]="true" [enabled]="true"
     (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
     Bye, {{item?.name}}
