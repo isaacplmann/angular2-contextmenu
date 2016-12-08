@@ -1,3 +1,13 @@
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.5.3...v0.6.0) (2016-12-08)
+
+
+### Features
+
+* **dividers:** Add the ability to create dividers in the context menu ([c050ae5](https://github.com/isaacplmann/angular2-contextmenu/commit/c050ae5))
+
+
+
 <a name="0.5.3"></a>
 ## [0.5.3](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.5.2...v0.5.3) (2016-12-02)
 
