@@ -80,7 +80,15 @@ export class ContextMenuComponent implements AfterContentInit {
   }
 
   @HostListener('document:click')
+  public leftClickOutside(): void{
+    this.clickedOutside();
+  }
+
   @HostListener('document:contextmenu')
+  public rightClickOutside(): void{
+    this.clickedOutside();
+  }
+
   public clickedOutside(): void {
     if (!this.isOpening) {
       this.hideMenu();
