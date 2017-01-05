@@ -1,4 +1,4 @@
-import {Directive, Input, Output, EventEmitter, TemplateRef} from '@angular/core';
+import { Directive, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 
 @Directive({
   /* tslint:disable:directive-selector-type */
@@ -11,7 +11,7 @@ export class ContextMenuItemDirective {
   @Input() public visible: boolean | ((item: any) => boolean) = true;
   @Output() public execute: EventEmitter<{ event: Event, item: any }> = new EventEmitter<{ event: Event, item: any }>();
 
-  constructor(private template: TemplateRef<{item: any}>) {}
+  constructor(public template: TemplateRef<{ item: any }>) { }
 
   public evaluateIfFunction(value: any, item: any): any {
     if (value instanceof Function) {
@@ -24,6 +24,6 @@ export class ContextMenuItemDirective {
     if (!this.evaluateIfFunction(this.enabled, item)) {
       return;
     }
-    this.execute.emit({event: $event, item});
+    this.execute.emit({ event: $event, item });
   }
 }

@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  ElementRef,
   EventEmitter,
   HostListener,
   Inject,
@@ -11,6 +12,8 @@ import {
   Optional,
   Output,
   QueryList,
+  Renderer,
+  ViewChild
 } from '@angular/core';
 import { ContextMenuService, IContextMenuClickEvent } from './contextMenu.service';
 import { ContextMenuItemDirective } from './contextMenu.item.directive';
@@ -20,6 +23,12 @@ export interface ILinkConfig {
   enabled?: (item: any) => boolean;
   html: (item: any) => string;
 }
+export interface MouseLocation {
+  left?: string;
+  marginLeft?: string;
+  marginTop?: string;
+  top?: string;
+}
 
 @Component({
   selector: 'context-menu',
@@ -27,7 +36,7 @@ export interface ILinkConfig {
   ],
   template:
   `<div class="dropdown angular2-contextmenu">
-      <ul *ngIf="item" [ngStyle]="locationCss" class="dropdown-menu">
+      <ul *ngIf="item" #menu [ngStyle]="locationCss" class="dropdown-menu">
         <!-- Imperative context menu -->
         <li *ngFor="let link of links" [class.disabled]="isDisabled(link)">
           <a href [class.dropdown-item]="useBootstrap4" [class.disabled]="useBootstrap4 && isDisabled(link)"
@@ -51,13 +60,14 @@ export class ContextMenuComponent implements AfterContentInit {
   @Input() public useBootstrap4: boolean = false;
   @Output() public close: EventEmitter<any> = new EventEmitter<any>();
   @ContentChildren(ContextMenuItemDirective) public menuItems: QueryList<ContextMenuItemDirective>;
+  @ViewChild('menu') public menuElement: ElementRef;
   public visibleMenuItems: ContextMenuItemDirective[] = [];
 
   public links: ILinkConfig[] = [];
   public isShown: boolean = false;
   public isOpening: boolean = false;
   public item: any;
-  private mouseLocation: { left: number, top: number } = { left: 0, top: 0 };
+  private mouseLocation: MouseLocation = { left: '0px', top: '0px' };
   constructor(
     private _contextMenuService: ContextMenuService,
     private changeDetector: ChangeDetectorRef,
@@ -74,8 +84,10 @@ export class ContextMenuComponent implements AfterContentInit {
     return {
       'position': 'fixed',
       'display': this.isShown ? 'block' : 'none',
-      left: this.mouseLocation.left + 'px',
-      top: this.mouseLocation.top + 'px',
+      left: this.mouseLocation.left,
+      marginLeft: this.mouseLocation.marginLeft,
+      marginTop: this.mouseLocation.marginTop,
+      top: this.mouseLocation.top,
     };
   }
 
@@ -147,6 +159,26 @@ export class ContextMenuComponent implements AfterContentInit {
         } else {
           this.hideMenu();
         }
+        setTimeout(() => {
+          const menuWidth = this.menuElement.nativeElement.clientWidth;
+          const menuHeight = this.menuElement.nativeElement.clientHeight;
+          const bodyWidth = event.view.document.body.clientWidth;
+          const bodyHeight = event.view.document.body.clientHeight;
+          const distanceFromRight = bodyWidth - (event.clientX + menuWidth);
+          const distanceFromBottom = bodyHeight - (event.clientY + menuHeight);
+          let isMenuOutsideBody: boolean = false;
+          if (distanceFromRight < 0 && event.clientX > bodyWidth / 2) {
+            this.mouseLocation.marginLeft = '-' + menuWidth + 'px';
+            isMenuOutsideBody = true;
+          }
+          if (distanceFromBottom < 0 && event.clientY > bodyHeight / 2) {
+            this.mouseLocation.marginTop = '-' + menuHeight + 'px';
+            isMenuOutsideBody = true;
+          }
+          if (isMenuOutsideBody) {
+            this.showMenu();
+          }
+        });
       });
     } else {
       this.hideMenu();
@@ -154,8 +186,8 @@ export class ContextMenuComponent implements AfterContentInit {
     this.links = actions;
     this.item = item;
     this.mouseLocation = {
-      left: event.clientX,
-      top: event.clientY,
+      left: event.clientX + 'px',
+      top: event.clientY + 'px',
     };
   }
 
@@ -168,7 +200,12 @@ export class ContextMenuComponent implements AfterContentInit {
     this.changeDetector.markForCheck();
   }
 
-  public hideMenu(): void {
+  @HostListener('window:scroll')
+  @HostListener('document:keydown', ['$event'])
+  public hideMenu(event?: KeyboardEvent): void {
+    if (event && event.key !== 'Escape') {
+      return;
+    }
     if (this.isShown === true) {
       this.close.emit({});
     }

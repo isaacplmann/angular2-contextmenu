@@ -1,3 +1,15 @@
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.6.0...v0.7.0) (2016-12-08)
+
+
+### Features
+
+* **dividers:** Add appropriate divider class for bootstrap 4
+* **position:** Position context menu to the left or above the mouse location, if the menu goes outside the body element
+* **closing:** Hide the context menu on escape keydown or window scroll events
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.5.3...v0.6.0) (2016-12-08)
 
