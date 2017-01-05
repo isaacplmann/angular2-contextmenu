@@ -44,8 +44,9 @@ export interface MouseLocation {
             innerHTML="{{link.html ? link.html(item) : ''}}"></a>
         </li>
         <!-- Declarative context menu -->
-        <li *ngFor="let menuItem of visibleMenuItems" [class.disabled]="!isMenuItemEnabled(menuItem)"
-          [attr.role]="menuItem.divider ? 'separator' : undefined" [class.divider]="menuItem.divider">
+        <li *ngFor="let menuItem of visibleMenuItems" [class.disabled]="!isMenuItemEnabled(menuItem)" 
+            [class.divider]="menuItem.divider" [class.dropdown-divider]="useBootstrap4 && menuItem.divider"
+            [attr.role]="menuItem.divider ? 'separator' : undefined">
           <a *ngIf="!menuItem.divider" href [class.dropdown-item]="useBootstrap4"
             [class.disabled]="useBootstrap4 && !isMenuItemEnabled(menuItem)"
             (click)="menuItem.triggerExecute(item, $event); $event.preventDefault(); $event.stopPropagation();">
