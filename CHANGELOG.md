@@ -1,5 +1,5 @@
 <a name="0.7.0"></a>
-# [0.7.0](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.6.0...v0.7.0) (2016-12-08)
+# [0.7.0](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.6.0...v0.7.0) (2017-01-05)
 
 
 ### Features
