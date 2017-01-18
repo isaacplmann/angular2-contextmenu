@@ -44,7 +44,7 @@ export interface MouseLocation {
             innerHTML="{{link.html ? link.html(item) : ''}}"></a>
         </li>
         <!-- Declarative context menu -->
-        <li *ngFor="let menuItem of visibleMenuItems" [class.disabled]="!isMenuItemEnabled(menuItem)" 
+        <li *ngFor="let menuItem of visibleMenuItems" [class.disabled]="!isMenuItemEnabled(menuItem)"
             [class.divider]="menuItem.divider" [class.dropdown-divider]="useBootstrap4 && menuItem.divider"
             [attr.role]="menuItem.divider ? 'separator' : undefined">
           <a *ngIf="!menuItem.divider" href [class.dropdown-item]="useBootstrap4"
@@ -204,7 +204,7 @@ export class ContextMenuComponent implements AfterContentInit {
   @HostListener('window:scroll')
   @HostListener('document:keydown', ['$event'])
   public hideMenu(event?: KeyboardEvent): void {
-    if (event && event.key !== 'Escape') {
+    if (event && (event.keyCode && event.keyCode !== 27 || event.key && event.key !== 'Escape')) {
       return;
     }
     if (this.isShown === true) {
