@@ -72,6 +72,7 @@ export class ContextMenuComponent implements AfterContentInit {
   constructor(
     private _contextMenuService: ContextMenuService,
     private changeDetector: ChangeDetectorRef,
+    private elementRef: ElementRef,
     @Optional()
     @Inject(CONTEXT_MENU_OPTIONS) private options: IContextMenuOptions
   ) {
@@ -186,9 +187,17 @@ export class ContextMenuComponent implements AfterContentInit {
     }
     this.links = actions;
     this.item = item;
+    let adjustX = 0;
+    let adjustY = 0;
+    const offsetParent: Element = this.elementRef.nativeElement.offsetParent;
+    if (offsetParent.tagName !== 'BODY') {
+      const { left, top } = offsetParent.getBoundingClientRect();
+      adjustX = -left;
+      adjustY = -top;
+    }
     this.mouseLocation = {
-      left: event.clientX + 'px',
-      top: event.clientY + 'px',
+      left: event.clientX + adjustX + 'px',
+      top: event.clientY + adjustY + 'px',
     };
   }
 

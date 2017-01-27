@@ -231,6 +231,10 @@ There is a `(close)` output EventEmitter that you can subscribe to for notificat
 <context-menu (close)="processContextMenuCloseEvent()"></context-menu>
 ```
 
+## CSS Transforms
+
+The context menu will correctly position itself as long as the `<context-menu>` element does not have a parent element that has a complex transform applied to it.  Complex in this case means anything besides a simple 2d translation.  So rotate, skew, stretch, scale, z-axis translation will all cause the context menu to appear in unexpected places.  The common scenario of rendering an element with `transform: translate3d(0px 0px 0px)` in order to trigger the browser's GPU works just fine.
+
 ## Deprecated syntax
 
 This alternate, deprecated syntax will continue working until version 1.x.

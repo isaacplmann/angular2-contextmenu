@@ -1,3 +1,13 @@
+<a name="0.7.2"></a>
+# [0.7.2](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.7.1...v0.7.2) (2017-01-27)
+
+
+### Bug Fixes
+
+* **closing:** Position contextmenu when parent element has 3d transform
+
+
+
 <a name="0.7.1"></a>
 # [0.7.1](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.7.0...v0.7.1) (2017-01-18)
 
