@@ -190,7 +190,7 @@ export class ContextMenuComponent implements AfterContentInit {
     let adjustX = 0;
     let adjustY = 0;
     const offsetParent: Element = this.elementRef.nativeElement.offsetParent;
-    if (offsetParent.tagName !== 'BODY') {
+    if (offsetParent && offsetParent.tagName !== 'BODY') {
       const { left, top } = offsetParent.getBoundingClientRect();
       adjustX = -left;
       adjustY = -top;

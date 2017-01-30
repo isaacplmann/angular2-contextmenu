@@ -1,3 +1,13 @@
+<a name="0.7.4"></a>
+# [0.7.4](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.7.3...v0.7.4) (2017-01-30)
+
+
+### Bug Fixes
+
+* **closing:** Recover when context menu offsetParent is undefined
+
+
+
 <a name="0.7.3"></a>
 # [0.7.3](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.7.1...v0.7.3) (2017-01-27)
 
