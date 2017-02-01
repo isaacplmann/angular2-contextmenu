@@ -42,11 +42,19 @@
     </div>
   </div>
 </div>
-<context-menu #basicMenu>
-  <template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
-    Say hi!
-  </template>
-  <template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
-    Bye, {{item?.name}}
-  </template>
-</context-menu>
+<div style="position:absolute;top:35px;height:100%;width:100%;display:table; border-collapse: collapse;border:none;outline:none; pointer-events: none">
+  <div style="display: table-cell;width:200px;vertical-align: top">
+    <div style="height:100%">
+      <div style="position:absolute;top:200px;left:-200px">
+        <context-menu #basicMenu style="pointer-events:all">
+          <template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
+            Say hi!
+          </template>
+          <template contextMenuItem let-item (execute)="showMessage($event.event)">
+            Bye, {{item?.name}}
+          </template>
+        </context-menu>
+      </div>
+    </div>
+  </div>
+</div>
