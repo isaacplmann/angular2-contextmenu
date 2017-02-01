@@ -119,7 +119,7 @@ If your `<context-menu>` component is in a different component from your list, y
 
 ```html
 <ul>
-    <li *ngFor="item in items" (contextmenu)="onContextMenu($event, item)">Right Click: {{item.name}}</li>
+    <li *ngFor="let item of items" (contextmenu)="onContextMenu($event, item)">Right Click: {{item.name}}</li>
 </ul>
 ```
 
@@ -154,7 +154,7 @@ with a left click instead of a right click, use this html:
 
 ```html
 <ul>
-    <li *ngFor="item in items" (click)="onContextMenu($event, item)">Left Click: {{item.name}}</li>
+    <li *ngFor="let item of items" (click)="onContextMenu($event, item)">Left Click: {{item.name}}</li>
 </ul>
 ```
 
@@ -243,7 +243,7 @@ This alternate, deprecated syntax will continue working until version 1.x.
 
 ```html
 <ul>
-    <li *ngFor="item in items" (contextmenu)="onContextMenu($event, item)">Right Click: {{item.name}}</li>
+    <li *ngFor="let item of items" (contextmenu)="onContextMenu($event, item)">Right Click: {{item.name}}</li>
 </ul>
 <context-menu></context-menu>
 ```
