@@ -1,6 +1,6 @@
 {
   "name": "angular2-contextmenu",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "description": "An Angular 2 component to show a context menu on an arbitrary component",
   "main": "angular2-contextmenu.js",
   "scripts": {

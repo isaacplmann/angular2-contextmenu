@@ -1,3 +1,13 @@
+<a name="0.7.6"></a>
+# [0.7.6](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.7.5...v0.7.6) (2017-02-06)
+
+
+### Bug Fixes
+
+* **position:** Don't offset context menu when inside fixed positioned element
+
+
+
 <a name="0.7.5"></a>
 # [0.7.5](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.7.4...v0.7.5) (2017-02-01)
 
