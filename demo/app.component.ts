@@ -7,8 +7,22 @@ import { ContextMenuService, ContextMenuComponent } from '../angular2-contextmen
 })
 export class AppComponent {
   public items: any[] = [
-      { name: 'John', otherProperty: 'Foo' },
-      { name: 'Joe', otherProperty: 'Bar' },
+    {
+      name: 'John', otherProperty: 'Foo', actions: [{
+        enabled: true,
+        execute: (item: any): void => console.log(item),
+        html: (item: any): string => `John custom: ${item.name}`,
+        visible: true,
+      }],
+    },
+    {
+      name: 'Joe', otherProperty: 'Bar', actions: [{
+        enabled: true,
+        execute: (item: any): void => console.log(item),
+        html: (item: any): string => `Joe something: ${item.name}`,
+        visible: true,
+      }],
+    },
   ];
   public outsideValue: string = 'something';
 
@@ -16,7 +30,7 @@ export class AppComponent {
   @ViewChild('enableAndVisible') public enableAndVisible: ContextMenuComponent;
   @ViewChild('withFunctions') public withFunctions: ContextMenuComponent;
 
-  constructor(private contextMenuService: ContextMenuService) {}
+  constructor(private contextMenuService: ContextMenuService) { }
 
   public onContextMenu($event: MouseEvent, item: any): void {
     this.contextMenuService.show.next({ event: $event, item: item });

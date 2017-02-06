@@ -45,7 +45,7 @@
 <div style="position:absolute;top:35px;height:100%;width:100%;display:table; border-collapse: collapse;border:none;outline:none; pointer-events: none">
   <div style="display: table-cell;width:200px;vertical-align: top">
     <div style="height:100%">
-      <div style="position:absolute;top:200px;left:-200px">
+      <div style="position:fixed;top:200px;left:-200px">
         <context-menu #basicMenu style="pointer-events:all">
           <template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
             Say hi!
@@ -58,3 +58,14 @@
     </div>
   </div>
 </div>
+<ul>
+  <li *ngFor="let item of items" [contextMenu]="itemContextMenu" [contextMenuSubject]="item">
+    {{item.name}}
+    <context-menu #itemContextMenu>
+      <template *ngFor="let action of item.actions" contextMenuItem let-item [visible]="action.visible" [enabled]="action.enabled"
+        (execute)="action.execute($event.item)">
+        {{ action.html(item) }}
+        </template>
+    </context-menu>
+  </li>
+</ul>
