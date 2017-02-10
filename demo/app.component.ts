@@ -3,12 +3,38 @@ import { ContextMenuService, ContextMenuComponent } from '../angular2-contextmen
 
 @Component({
   selector: 'angular2-context-menu-demo',
+  styles: [`
+.dashboardContainer {
+width: 100%;
+height: 100%;
+position: fixed;
+}
+
+.componentsContainer {
+position: fixed;
+bottom: 0;
+top: 100px;
+width: 100%; }
+
+.componentContainer {
+overflow: auto;
+position: absolute; }
+`],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
+
   public items: any[] = [
     {
-      name: 'John', otherProperty: 'Foo', actions: [{
+      name: 'John',
+      otherProperty: 'Foo',
+      layout: {
+        height: 90,
+        left: 0,
+        top: 0,
+        width: 98,
+      },
+      actions: [{
         enabled: true,
         execute: (item: any): void => console.log(item),
         html: (item: any): string => `John custom: ${item.name}`,
@@ -16,7 +42,15 @@ export class AppComponent {
       }],
     },
     {
-      name: 'Joe', otherProperty: 'Bar', actions: [{
+      name: 'Joe',
+      otherProperty: 'Bar',
+      layout: {
+        height: 90,
+        left: 98,
+        top: 0,
+        width: 98,
+      },
+      actions: [{
         enabled: true,
         execute: (item: any): void => console.log(item),
         html: (item: any): string => `Joe something: ${item.name}`,

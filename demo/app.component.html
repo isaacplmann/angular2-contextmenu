@@ -42,9 +42,9 @@
     </div>
   </div>
 </div>
-<div style="position:absolute;top:35px;height:100%;width:100%;display:table; border-collapse: collapse;border:none;outline:none; pointer-events: none">
+<div style="position:fixed;top:35px;height:100%;width:100%;display:table; border-collapse: collapse;border:none;outline:none; pointer-events: none">
   <div style="display: table-cell;width:200px;vertical-align: top">
-    <div style="height:100%">
+    <div style="position:absolute; top: 20px;">
       <div style="position:fixed;top:200px;left:-200px">
         <context-menu #basicMenu style="pointer-events:all">
           <template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
@@ -58,6 +58,22 @@
     </div>
   </div>
 </div>
+<div class="dashboardContainer" style="pointer-events: none">
+  <div class="componentsContainer">
+    <div class="componentContainer" *ngFor="let item of items" style="pointer-events: all" [ngStyle]="item.layout" [contextMenu]="componentMenu"
+      [contextMenuSubject]="item">
+      {{ item.name }}
+  </div>
+  <context-menu #componentMenu>
+    <template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
+      Say hi!
+    </template>
+    <template contextMenuItem let-item (execute)="showMessage($event.event)">
+      Bye, {{item?.name}}
+    </template>
+  </context-menu>
+</div>
+</div>
 <ul>
   <li *ngFor="let item of items" [contextMenu]="itemContextMenu" [contextMenuSubject]="item">
     {{item.name}}
@@ -69,3 +85,53 @@
     </context-menu>
   </li>
 </ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

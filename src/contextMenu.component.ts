@@ -1,4 +1,6 @@
+import { ContextMenuItemDirective } from './contextMenu.item.directive';
 import { CONTEXT_MENU_OPTIONS, IContextMenuOptions } from './contextMenu.options';
+import { ContextMenuService, IContextMenuClickEvent } from './contextMenu.service';
 import {
   AfterContentInit,
   ChangeDetectorRef,
@@ -12,11 +14,8 @@ import {
   Optional,
   Output,
   QueryList,
-  Renderer,
   ViewChild
 } from '@angular/core';
-import { ContextMenuService, IContextMenuClickEvent } from './contextMenu.service';
-import { ContextMenuItemDirective } from './contextMenu.item.directive';
 
 export interface ILinkConfig {
   click: (item: any, $event?: MouseEvent) => void;
@@ -190,12 +189,13 @@ export class ContextMenuComponent implements AfterContentInit {
     let adjustX = 0;
     let adjustY = 0;
     const offsetParent: HTMLElement = this.elementRef.nativeElement.offsetParent;
-    if (offsetParent && offsetParent.tagName !== 'BODY' &&
-      offsetParent.style.position !== 'absolute' && offsetParent.style.position !== 'fixed'
-    ) {
-      const { left, top } = offsetParent.getBoundingClientRect();
-      adjustX = -left;
-      adjustY = -top;
+    if (offsetParent && offsetParent.tagName !== 'BODY') {
+      const position = event.view.getComputedStyle(offsetParent).position;
+      if (position !== 'absolute' && position !== 'fixed') {
+        const { left, top } = offsetParent.getBoundingClientRect();
+        adjustX = -left;
+        adjustY = -top;
+      }
     }
     this.mouseLocation = {
       left: event.clientX + adjustX + 'px',
