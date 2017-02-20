@@ -32,6 +32,14 @@ export interface MouseLocation {
 @Component({
   selector: 'context-menu',
   styles: [
+    `.passive {
+       display: block;
+       padding: 3px 20px;
+       clear: both;
+       font-weight: normal;
+       line-height: @line-height-base;
+       white-space: nowrap;
+     }`
   ],
   template:
   `<div class="dropdown angular2-contextmenu">
@@ -46,11 +54,17 @@ export interface MouseLocation {
         <li *ngFor="let menuItem of visibleMenuItems" [class.disabled]="!isMenuItemEnabled(menuItem)"
             [class.divider]="menuItem.divider" [class.dropdown-divider]="useBootstrap4 && menuItem.divider"
             [attr.role]="menuItem.divider ? 'separator' : undefined">
-          <a *ngIf="!menuItem.divider" href [class.dropdown-item]="useBootstrap4"
+          <a *ngIf="!menuItem.divider && !menuItem.passive" href [class.dropdown-item]="useBootstrap4"
             [class.disabled]="useBootstrap4 && !isMenuItemEnabled(menuItem)"
             (click)="menuItem.triggerExecute(item, $event); $event.preventDefault(); $event.stopPropagation();">
             <template [ngTemplateOutlet]="menuItem.template" [ngOutletContext]="{ $implicit: item }"></template>
           </a>
+
+          <span (click)="stopEvent($event)" (contextmenu)="stopEvent($event)" class="passive"
+                *ngIf="!menuItem.divider && menuItem.passive" [class.dropdown-item]="useBootstrap4"
+                [class.disabled]="useBootstrap4 && !isMenuItemEnabled(menuItem)">
+            <template [ngTemplateOutlet]="menuItem.template" [ngOutletContext]="{ $implicit: item }"></template>
+          </span>
         </li>
       </ul>
     </div>
@@ -79,6 +93,10 @@ export class ContextMenuComponent implements AfterContentInit {
       this.useBootstrap4 = options.useBootstrap4;
     }
     _contextMenuService.show.subscribe(menuEvent => this.onMenuEvent(menuEvent));
+  }
+
+  stopEvent($event : MouseEvent) {
+    $event.stopPropagation()
   }
 
   get locationCss(): any {

@@ -53,6 +53,9 @@
           <template contextMenuItem let-item (execute)="showMessage($event.event)">
             Bye, {{item?.name}}
           </template>
+          <template contextMenuItem passive="true">
+            Input something: <input type="text">
+          </template>
         </context-menu>
       </div>
     </div>
