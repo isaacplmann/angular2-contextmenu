@@ -28,6 +28,9 @@ The older syntax is deprecated and will be removed in version 1.x.  (I have no t
   <template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
     Bye, {{item?.name}}
   </template>
+  <template contextMenuItem passive="true">
+    Input something: <input type="text">
+  </template>
 </context-menu>
 ```
 
@@ -54,6 +57,8 @@ export class MyContextMenuClass {
 - Every context menu item emits `execute` events. The `$event` object is of the form `{ event: MouseEvent, item: any }` where `event` is the mouse click event
   that triggered the execution and `item` is the current item.
 - The `divider` input parameter is optional.  Items default to normal menu items.  If `divider` is `true`, all the other inputs are ignored.
+- The `passive` input parameter is optional.  If `passive` is `true`, the menu item will not emit execute events or close
+  the context menu when clicked.
 - The `enabled` input parameter is optional.  Items are enabled by default.
   This can be a boolean value or a function definition that takes an item and returns a boolean.
 - The `visible` input parameter is optional.  Items are visible by default.  This property enables you to show certain context menu items based on what the data item is.
@@ -169,6 +174,7 @@ The html that is generated for the context menu looks like this:
   <ul class="dropdown-menu">
     <li>
       <a><!-- the template for each context menu item goes here --></a>
+      <span><!-- the template for each passive context menu item goes here --></span>
     </li>
   </ul>
 </div>
