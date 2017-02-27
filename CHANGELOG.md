@@ -1,3 +1,13 @@
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.7.7...v0.8.0) (2017-02-27)
+
+
+### Features
+
+* **passive:** Add a passive menuitem that will not close the menu when clicked
+
+
+
 <a name="0.7.7"></a>
 # [0.7.7](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.7.6...v0.7.7) (2017-02-10)
 
