@@ -140,10 +140,15 @@ export class MyContextMenuClass {
       { name: 'Joe', otherProperty: 'Bar' }
   ];
 
+  // Optional
+  @Input() contextMenu: ContextMenuComponent;
+
   constructor(private contextMenuService: ContextMenuService) {}
 
   public onContextMenu($event: MouseEvent, item: any): void {
     this.contextMenuService.show.next({
+      // Optional - if unspecified, all context menu components will open
+      contextMenu: this.contextMenu,
       event: $event,
       item: item,
     });
