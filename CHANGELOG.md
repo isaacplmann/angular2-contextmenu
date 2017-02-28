@@ -1,3 +1,13 @@
+<a name="0.8.1"></a>
+# [0.8.1](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.8.0...v0.8.1) (2017-02-28)
+
+
+### Bug Fixes
+
+* **position:** Default to 100x100 size if menuElement is undefined
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/isaacplmann/angular2-contextmenu/compare/v0.7.7...v0.8.0) (2017-02-27)
 

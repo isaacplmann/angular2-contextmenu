@@ -95,7 +95,7 @@ export class ContextMenuComponent implements AfterContentInit {
     _contextMenuService.show.subscribe(menuEvent => this.onMenuEvent(menuEvent));
   }
 
-  stopEvent($event : MouseEvent) {
+  stopEvent($event: MouseEvent) {
     $event.stopPropagation()
   }
 
@@ -179,8 +179,8 @@ export class ContextMenuComponent implements AfterContentInit {
           this.hideMenu();
         }
         setTimeout(() => {
-          const menuWidth = this.menuElement.nativeElement.clientWidth;
-          const menuHeight = this.menuElement.nativeElement.clientHeight;
+          const menuWidth = this.menuElement ? this.menuElement.nativeElement.clientWidth : 100;
+          const menuHeight = this.menuElement ? this.menuElement.nativeElement.clientHeight : 100;
           const bodyWidth = event.view.document.body.clientWidth;
           const bodyHeight = event.view.document.body.clientHeight;
           const distanceFromRight = bodyWidth - (event.clientX + menuWidth);
