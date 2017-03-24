@@ -81,7 +81,7 @@
   <li *ngFor="let item of items" [contextMenu]="itemContextMenu" [contextMenuSubject]="item">
     {{item.name}}
     <context-menu #itemContextMenu>
-      <template *ngFor="let action of item.actions" contextMenuItem let-item [visible]="action.visible" [enabled]="action.enabled"
+      <template *ngFor="let action of item.actions" contextMenuItem let-item [visible]="action.visible" [enabled]="action.enabled" [divider]="action.divider"
         (execute)="action.execute($event.item)">
         {{ action.html(item) }}
         </template>

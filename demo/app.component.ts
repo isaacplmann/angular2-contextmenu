@@ -39,6 +39,14 @@ export class AppComponent {
         execute: (item: any): void => console.log(item),
         html: (item: any): string => `John custom: ${item.name}`,
         visible: true,
+      }, {
+        divider: true,
+        visible: true,
+      }, {
+        enabled: true,
+        execute: (item: any): void => console.log(item),
+        html: (item: any): string => `John custom: ${item.name}`,
+        visible: true,
       }],
     },
     {
