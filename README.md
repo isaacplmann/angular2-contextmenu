@@ -1,5 +1,7 @@
 # angular2-contextmenu
 
+**This library is being moved to [ngx-contextmenu](https://github.com/isaacplmann/ngx-contextmenu).  With the name change comes support for Angular 4 and removal of the old imperative syntax.**
+
 A context menu built with Angular 2 inspired by [ui.bootstrap.contextMenu](https://github.com/Templarian/ui.bootstrap.contextMenu).  Bootstrap classes are included in the markup, but there is no explicit dependency on Bootstrap. [Demo](http://plnkr.co/edit/wpJXpEh4zNZ4uCxTURx2?p=preview)
 
 ## Installation
