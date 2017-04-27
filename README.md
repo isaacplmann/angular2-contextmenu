@@ -1,3 +1,5 @@
+# Deprecated - use [ngx-contextmenu](https://github.com/isaacplmann/ngx-contextmenu) instead
+
 # angular2-contextmenu
 
 **This library is being moved to [ngx-contextmenu](https://github.com/isaacplmann/ngx-contextmenu).  With the name change comes support for Angular 4 and removal of the old imperative syntax.**
