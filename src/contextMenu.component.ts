@@ -204,20 +204,22 @@ export class ContextMenuComponent implements AfterContentInit {
     }
     this.links = actions;
     this.item = item;
-    let adjustX = 0;
-    let adjustY = 0;
-    const offsetParent: HTMLElement = this.elementRef.nativeElement.offsetParent;
-    if (offsetParent && offsetParent.tagName !== 'BODY') {
-      const position = event.view.getComputedStyle(offsetParent).position;
-      if (position !== 'absolute' && position !== 'fixed') {
-        const { left, top } = offsetParent.getBoundingClientRect();
-        adjustX = -left;
-        adjustY = -top;
-      }
-    }
+//     let adjustX = 0;
+//     let adjustY = 0;
+//     const offsetParent: HTMLElement = this.elementRef.nativeElement.offsetParent;
+//     if (offsetParent && offsetParent.tagName !== 'BODY') {
+//       const position = event.view.getComputedStyle(offsetParent).position;
+//       if (position !== 'absolute' && position !== 'fixed') {
+//         const { left, top } = offsetParent.getBoundingClientRect();
+//         adjustX = -left;
+//         adjustY = -top;
+//       }
+//     }
     this.mouseLocation = {
-      left: event.clientX + adjustX + 'px',
-      top: event.clientY + adjustY + 'px',
+//       left: event.clientX + adjustX + 'px',
+//       top: event.clientY + adjustY + 'px',
+      left: event.pageX + 'px',
+      top: event.pageY + 'px',
     };
   }
 
